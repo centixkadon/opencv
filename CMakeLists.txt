@@ -1,4 +1,6 @@
 
+include(cmake/OpenCVPCHSupport.cmake)
+
 cmake_minimum_required(VERSION 2.8)
 
 project(cv)
@@ -13,5 +15,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++11 -O3 -Wall ")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin/")
 
-add_executable(cv main.cpp)
-target_link_libraries(cv ${OpenCV_LIBS} pthread)
+ocv_add_precompiled_header_to_target(main.cpp precomp.hpp)
+ocv_add_precompiled_header_to_target(config.cpp precomp.hpp)
+ocv_add_precompiled_header_to_target(src/precomp.cpp precomp.hpp)
+
+add_library(precomp src/precomp.cpp)
+
+add_executable(cv main.cpp config.cpp)
+target_link_libraries(cv ${OpenCV_LIBS} precomp pthread gflags)
