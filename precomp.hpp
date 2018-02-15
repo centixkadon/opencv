@@ -27,8 +27,15 @@
 #include <iostream>
 #include <sstream>
 
+#include <atomic>
+#include <condition_variable>
+#include <future>
+#include <mutex>
+#include <thread>
+
 #include <gflags/gflags.h>
 
 #include <opencv2/opencv.hpp>
 
-#include "config.hpp"
+#include "thread/iostream"
+#include "thread/list"
