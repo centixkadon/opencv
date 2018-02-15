@@ -1,0 +1,84 @@
+
+#pragma once
+
+#include <iostream>
+#include <mutex>
+
+namespace std {
+
+class thread_endl_type {
+public:
+  typedef thread_endl_type _Myt;
+  thread_endl_type() = delete;
+  thread_endl_type(_Myt & _Val) : _mutex(_Val._mutex){};
+  thread_endl_type(mutex & mtx) : _mutex(mtx) {}
+  _Myt & operator=(_Myt &) = delete;
+
+  void unlock() {
+    _mutex.unlock();
+  }
+
+private:
+  mutex & _mutex;
+};
+
+template <typename _ostream>
+class thread_ostream {
+public:
+  typedef thread_ostream<_ostream> _Myt;
+  typedef _ostream _Mybase;
+  typedef typename _Mybase::_Myios _Myios;
+  typedef typename _Mybase::_Mysb _Mysb;
+  typedef typename _Mybase::_Iter _Iter;
+  typedef typename _Mybase::_Nput _Nput;
+
+  thread_ostream() = delete;
+  thread_ostream(_Myt const &) = delete;
+  thread_ostream(_ostream & _Ostr) : _out(_Ostr) {}
+  _Myt & operator=(_Myt const &) = delete;
+
+  inline void lock() { _mutex.lock(); }
+
+  template <typename _Ty>
+  inline _Mybase & operator<<(_Ty const & _Val) {
+    lock();
+    return _out << _Val;
+  }
+  template <typename _Ty>
+  inline _Mybase & operator<<(_Ty const * _Val) {
+    lock();
+    return _out << _Val;
+  }
+  inline _Mybase & operator<<(_Mybase & (*_Pfn)(_Mybase &)) {
+    lock();
+    return _out << _Pfn;
+  }
+  inline _Mybase & operator<<(_Myios & (*_Pfn)(_Myios &)) {
+    lock();
+    return _out << _Pfn;
+  }
+  inline _Mybase & operator<<(ios_base & (*_Pfn)(ios_base &)) {
+    lock();
+    return _out << _Pfn;
+  }
+
+  thread_endl_type endl() {
+    return _mutex;
+  }
+
+private:
+  _Mybase & _out;
+  mutex _mutex;
+};
+
+extern thread_ostream<ostream> tout;
+extern thread_endl_type tendl;
+
+template <class _ostream>
+inline _ostream & operator<<(_ostream & _Ostr, typename thread_endl_type & _endl) {
+  _Ostr << endl;
+  _endl.unlock();
+  return _Ostr;
+}
+
+} // namespace std
