@@ -13,10 +13,11 @@ DEFINE_string(images_group, "", "images group");
 DEFINE_string(images_prefix_left, "", "left images prefix");
 DEFINE_string(images_prefix_right, "", "right images prefix");
 DEFINE_string(images_prefix_groundtruth, "", "groundtruth images prefix");
+DEFINE_uint64(images_index_length, 0, "images index legth");
 DEFINE_string(images_postfix, "", "images postfix");
 DEFINE_string(images_write_path, "./bin/output/", "images write path");
 
-DEFINE_uint64(images_index_begin, 0, "images index begin");
+DEFINE_uint64(images_index_begin, 1, "images index begin");
 DEFINE_uint64(images_index_end, -1, "images index end");
 DEFINE_uint64(images_index_step, 1, "images index step");
 

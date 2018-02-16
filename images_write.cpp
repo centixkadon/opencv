@@ -18,7 +18,8 @@ void images_write(thread_list<ImageWrite> & images_in) {
     stringstream image_count;
     image_count << frame.index;
     string image_index = image_count.str();
-    image_index = string(6 - image_index.size(), '0') + image_index;
+    if (FLAGS_images_index_length > image_index.size())
+      image_index = string(FLAGS_images_index_length - image_index.size(), '0') + image_index;
 
     imwrite(FLAGS_images_write_path + "SGM" + image_index + FLAGS_images_postfix, frame.disparity);
   }

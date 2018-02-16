@@ -29,7 +29,9 @@ void images_process(thread_list<ImageWrite> & images_out, thread_list<ImageRead>
     // Computation
 
     // Mat disparity(m, n, CV_8UC1, d);
-    delete[] l, r, d;
+    delete[] l;
+    delete[] r;
+    delete[] d;
 
     // Evaluation
 

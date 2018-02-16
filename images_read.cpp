@@ -15,14 +15,16 @@ void images_read(thread_list<ImageRead> & images_out) {
   string images_r = FLAGS_images_prefix_right;
   string images_gt = FLAGS_images_prefix_groundtruth;
   string images_format = FLAGS_images_postfix;
-  size_t const m = FLAGS_images_size_height, n = FLAGS_images_size_width;
+  int const m = FLAGS_images_size_height, n = FLAGS_images_size_width;
   for (size_t index = FLAGS_images_index_begin;
        index < FLAGS_images_index_end;
        index += FLAGS_images_index_step) {
     stringstream image_count;
     image_count << index;
     string image_index = image_count.str();
-    image_index = string(6 - image_index.size(), '0') + image_index;
+    if (FLAGS_images_index_length > image_index.size())
+      image_index = string(FLAGS_images_index_length - image_index.size(), '0') + image_index;
+    // tout << "cvRead: " << images_path + images_l + image_index + images_format << tendl;
     Mat l = imread(images_path + images_l + image_index + images_format);
     Mat r = imread(images_path + images_r + image_index + images_format);
     Mat gt = imread(images_path + images_gt + image_index + images_format);
