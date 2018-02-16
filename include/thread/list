@@ -16,6 +16,8 @@ class thread_list {
 public:
   typedef typename _Mybase::value_type value_type;
   typedef typename _Mybase::allocator_type allocator_type;
+
+public:
   typedef typename _Mybase::size_type size_type;
   typedef typename _Mybase::difference_type difference_type;
 

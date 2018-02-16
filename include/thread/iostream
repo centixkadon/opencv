@@ -22,19 +22,22 @@ private:
   mutex & _mutex;
 };
 
-template <typename _ostream>
-class thread_ostream {
-public:
-  typedef thread_ostream<_ostream> _Myt;
-  typedef _ostream _Mybase;
-  typedef typename _Mybase::_Myios _Myios;
-  typedef typename _Mybase::_Mysb _Mysb;
-  typedef typename _Mybase::_Iter _Iter;
-  typedef typename _Mybase::_Nput _Nput;
+template <typename _Elem, typename _Traits>
+class thread_basic_ostream {
+  typedef thread_basic_ostream<_Elem, _Traits> _Myt;
+  typedef basic_ostream<_Elem, _Traits> _Mybase;
+  typedef basic_ios<_Elem, _Traits> _Myios;
 
-  thread_ostream() = delete;
-  thread_ostream(_Myt const &) = delete;
-  thread_ostream(_ostream & _Ostr) : _out(_Ostr) {}
+public:
+  typedef _Elem char_type;
+  typedef _Traits traits_type;
+  typedef typename _Mybase::int_type int_type;
+  typedef typename _Mybase::pos_type pos_type;
+  typedef typename _Mybase::off_type off_type;
+
+  thread_basic_ostream() = delete;
+  thread_basic_ostream(_Myt const &) = delete;
+  thread_basic_ostream(_Mybase & _Ostr) : _out(_Ostr) {}
   _Myt & operator=(_Myt const &) = delete;
 
   inline void lock() { _mutex.lock(); }
@@ -71,11 +74,13 @@ private:
   mutex _mutex;
 };
 
-extern thread_ostream<ostream> tout;
+typedef thread_basic_ostream<char, char_traits<char>> thread_ostream;
+
+extern thread_ostream tout;
 extern thread_endl_type tendl;
 
 template <class _ostream>
-inline _ostream & operator<<(_ostream & _Ostr, typename thread_endl_type & _endl) {
+inline _ostream & operator<<(_ostream & _Ostr, thread_endl_type & _endl) {
   _Ostr << endl;
   _endl.unlock();
   return _Ostr;
