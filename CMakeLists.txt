@@ -1,6 +1,4 @@
 
-include(cmake/OpenCVPCHSupport.cmake)
-
 cmake_minimum_required(VERSION 2.8)
 
 project(cv)
@@ -20,10 +18,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 
 include_directories(./ include/ ${OpenCV_INCLUDE_DIR} ${gflags_INCLUDE_DIR})
-
-ocv_add_precompiled_header_to_target(main.cpp precomp.hpp)
-ocv_add_precompiled_header_to_target(config.cpp precomp.hpp)
-ocv_add_precompiled_header_to_target(src/precomp.cpp precomp.hpp)
 
 add_executable(cv main.cpp src/precomp.cpp config.cpp images_read.cpp images_process.cpp images_write.cpp)
 target_link_libraries(cv ${OpenCV_LIBS} ${gflags_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
