@@ -10,8 +10,8 @@ class thread_endl_type {
 public:
   typedef thread_endl_type _Myt;
   thread_endl_type() = delete;
-  thread_endl_type(_Myt & _Val) : _mutex(_Val._mutex){};
-  thread_endl_type(mutex & mtx) : _mutex(mtx) {}
+  thread_endl_type(_Myt const & _Val) : _mutex(_Val._mutex) {};
+  explicit thread_endl_type(mutex & mtx) : _mutex(mtx) {}
   _Myt & operator=(_Myt &) = delete;
 
   void unlock() {
@@ -66,7 +66,7 @@ public:
   }
 
   thread_endl_type endl() {
-    return _mutex;
+    return thread_endl_type(_mutex);
   }
 
 private:
