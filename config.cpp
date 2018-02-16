@@ -32,7 +32,6 @@ int config_init(int argc, char ** argv) {
   ParseCommandLineFlags(&argc, &argv, true);
 
   cout << "cvConfig: images_path = " << (FLAGS_images_root + FLAGS_images_group) << endl;
-  FLAGS_ddr_penalty_2 = FLAGS_ddr_penalty_1 * 4;
 
   return 0;
 }
