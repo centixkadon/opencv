@@ -8,13 +8,13 @@ DECLARE_string(images_group);
 DECLARE_string(images_prefix_left);
 DECLARE_string(images_prefix_right);
 DECLARE_string(images_prefix_groundtruth);
+DECLARE_uint64(images_index_length);
 DECLARE_string(images_postfix);
 DECLARE_string(images_write_path);
 
 DECLARE_uint64(images_index_begin);
 DECLARE_uint64(images_index_end);
 DECLARE_uint64(images_index_step);
-DECLARE_uint64(images_index_length);
 
 DECLARE_uint64(images_size_width);
 DECLARE_uint64(images_size_height);
