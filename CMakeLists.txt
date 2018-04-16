@@ -3,21 +3,19 @@ cmake_minimum_required(VERSION 2.8)
 
 project(cv)
 
-find_package(Threads REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(gflags REQUIRED)
+set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CONFIGURATION_TYPES Debug;${CMAKE_BUILD_TYPE})
 
-set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++11 -O0 -Wall -g -ggdb ")
-set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++11 -O3 -Wall ")
+find_package(libexstl PATHS .. REQUIRED)
+find_package(libimages PATHS .. REQUIRED)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+add_subdirectory(${libexstl_PATH} libexstl)
+add_subdirectory(${libimages_PATH} libimages)
 
-include_directories(./ include/ ${OpenCV_INCLUDE_DIR} ${gflags_INCLUDE_DIR})
+include_directories(${libexstl_INCLUDE_DIR} ${libimages_INCLUDE_DIR})
 
-add_executable(cv main.cpp src/precomp.cpp config.cpp images_read.cpp images_process.cpp images_write.cpp)
-target_link_libraries(cv ${OpenCV_LIBS} ${gflags_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+add_subdirectory(src)
